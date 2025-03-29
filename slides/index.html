@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação Interativa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #0a192f, #112d4e, #0a192f);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s infinite alternate ease-in-out;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animação do gradiente de fundo */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        #conclusao {
+            background-image:url(fundo.jpg);
+            background-position:center ;
+            background-size: cover;
+        }
+
+        #rachadura {
+            background-image:url(rachadura.webp);
+            background-position:center ;
+            background-size: cover;
+        }
+
+       #ia {
+            background-image:url(o-que-e-inteligencia-artificial-robo-com-simbolos-29-02-2024-65fcbecfb09be.webp);
+            background-position:center ;
+            background-size: cover;
+       }
+
+       #plano {
+            background-image:url(plano-de-negocio-6e711bc4aa0976c5cdfb0e010eead9841611168807.jpg);
+            background-position:center ;
+            background-size: cover;
+       }
+        /* Container principal */
+        .slider-container { 
+            width: 75%;
+            height: 70vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            background: rgba(73, 122, 122, 0.15);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background 0.8s ease-in-out;
+            background-image: url(StructureFirst_Logo_Adjusted.png);
+            
+        }
+        
+        /* Estilização dos slides */
+        .slides-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Partículas animadas no fundo */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(69, 165, 165, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticles linear infinite;
+        }
+
+        @keyframes floatParticles {
+            0% {
+                transform: translateY(0);
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+
+    <div class="slider-container" id="sliderContainer" >
+        <div class="slides-wrapper">
+            <div class="slide active" data-bg="#17415F">
+                <h1><img src="StructureFirst_Logo_Adjusted.png" alt="" id="sapoha"></h1>
+                
+            </div>
+            <div class="slide" data-bg="#1B4965" id="rachadura">
+                <h1>O Problema</h1>
+                <p>Falhas estruturais podem causar acidentes fatais e prejuízos.</p>
+            </div>
+            <div class="slide" data-bg="#1B4965" id="ia">
+                <h1>A Solução</h1>
+                <p>Utilizando tecnologias como: Sençores, IA e monitoramentos 24 horas gerando relatorios e prevenindo danos e gastos</p>
+            </div>
+            <div class="slide" data-bg="#264653" id="plano">
+                <h1>Modelo de Negócio</h1>
+                <p>Oferecemos o serviço por assinatura para empresas e construtoras.</p>
+            </div>
+            <div class="slide" data-bg="#4bbf9c" id="conclusao">
+                <h1>Conclusão</h1>
+                <p>Investir em segurança estrutural é garantir um futuro mais seguro.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".slide");
+        const sliderContainer = document.getElementById("sliderContainer");
+
+        function changeSlide(step) {
+            slides[currentSlide].classList.remove("active");
+            currentSlide = (currentSlide + step + slides.length) % slides.length;
+            slides[currentSlide].classList.add("active");
+
+            let newBg = slides[currentSlide].getAttribute("data-bg");
+            sliderContainer.style.background = newBg;
+        }
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowDown") changeSlide(1);
+            if (event.key === "ArrowUp") changeSlide(-1);
+        });
+
+        // Cria partículas animadas
+        function createParticles() {
+            const particleContainer = document.querySelector(".particles");
+
+            for (let i = 0; i < 30; i++) {
+                let particle = document.createElement("div");
+                particle.classList.add("particle");
+
+                let size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                particle.style.animationDelay = `${Math.random() * 3}s`;
+
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+    </script>
+</body>
+</html>
